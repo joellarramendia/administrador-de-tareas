@@ -20,13 +20,13 @@ export default function TaskCard({ task }: taskCardProps) {
     const queryClient = useQueryClient()
 
 
-    const {mutate} = useMutation({
+    const { mutate } = useMutation({
         mutationFn: deleteTask,
         onError: (error) => {
             toast.error(error.message)
         },
         onSuccess: (data) => {
-            queryClient.invalidateQueries({queryKey: ['project', projectId]})
+            queryClient.invalidateQueries({ queryKey: ['project', projectId] })
             toast.success(data)
         }
     })
@@ -55,7 +55,11 @@ export default function TaskCard({ task }: taskCardProps) {
                         <MenuItems
                             className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                             <MenuItem>
-                                <button type='button' className='block px-3 py-1 text-sm leading-6 text-gray-900'>
+                                <button
+                                    type='button'
+                                    className='block px-3 py-1 text-sm leading-6 text-gray-900'
+                                    onClick={() => navigate(location.pathname + `?viewTask=${task._id}`)}
+                                >
                                     Ver Tarea
                                 </button>
                             </MenuItem>
@@ -69,10 +73,10 @@ export default function TaskCard({ task }: taskCardProps) {
                             </MenuItem>
 
                             <MenuItem>
-                                <button 
-                                type='button' 
-                                className='block px-3 py-1 text-sm leading-6 text-red-500'
-                                onClick={() => mutate({projectId, taskId: task._id})}
+                                <button
+                                    type='button'
+                                    className='block px-3 py-1 text-sm leading-6 text-red-500'
+                                    onClick={() => mutate({ projectId, taskId: task._id })}
                                 >
                                     Eliminar Tarea
                                 </button>
