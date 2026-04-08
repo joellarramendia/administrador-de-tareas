@@ -28,21 +28,21 @@ export default function TaskModalDetails() {
 
     const queryClient = useQueryClient()
 
-    const {mutate} = useMutation({
+    const { mutate } = useMutation({
         mutationFn: updateStatus,
         onError: (error) => {
             toast.error(error.message)
         },
         onSuccess: (data) => {
             toast.success(data)
-            queryClient.invalidateQueries({queryKey: ['project', projectId]})
-            queryClient.invalidateQueries({queryKey: ['task', taskId]})
+            queryClient.invalidateQueries({ queryKey: ['project', projectId] })
+            queryClient.invalidateQueries({ queryKey: ['task', taskId] })
         }
     })
 
     const hancleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const status = e.target.value as TaskStatus
-        const data = {projectId, taskId, status}
+        const data = { projectId, taskId, status }
         mutate(data)
     }
 
@@ -88,6 +88,18 @@ export default function TaskModalDetails() {
                                         {data.name}
                                     </DialogTitle>
                                     <p className='text-lg text-slate-500 mb-2'>Descripción: {data.description}</p>
+
+                                    <p className='text-2xl text-slate-500 mb-2'>Historial de Cambios</p>
+                                    <ul className='list-decimal'>
+                                        {data.completedBy.map((activityLog) => (
+                                            <li key={activityLog._id}>
+                                                <span className='font-bold text-slate-600'>{statusTranslation[activityLog.status]} </span>
+                                                por: {activityLog.user.name}
+                                            </li>
+                                        ))}
+                                    </ul>
+
+
                                     <div className='my-5 space-y-3'>
                                         <label className='font-bold'>Estado Actual:</label>
                                         <select
