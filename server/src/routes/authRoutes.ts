@@ -118,4 +118,14 @@ router.post('/update-password',
 )
 
 
+
+router.post('/check-password',
+    authenticate,
+    body('password')
+        .notEmpty().withMessage('La contreaseña no puede ir vacío'),
+        handleInputErrors,
+        AuthController.checkPassword
+)
+
+
 export default router
