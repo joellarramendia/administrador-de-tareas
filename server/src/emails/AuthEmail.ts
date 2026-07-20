@@ -8,44 +8,36 @@ interface IEmail {
 
 export class AuthEmail {
     static sendConfirmationEmail = async (user: IEmail) => {
-        try {
-            const info = await transporter.sendMail({
-                from: `UpTask <${process.env.SMTP_USER}>`,
-                to: user.email,
-                subject: 'UpTask - Confirma tu cuenta',
-                text: 'UpTask - Confirma tu cuenta',
-                html: `<p>Hola ${user.name}, has creado tu cuenta en UpTask, solo debes confirmar tu cuenta</p>
-                    <p>Visita el siguiente en enlace</p>
-                    <a href="${process.env.FRONTEND_URL}/auth/confirm-account">Confirmar Cuenta</a>
-                    <p>E ingresa el codigo: <b>${user.token}</b></p>
-                    <p>Este token expira en 10 minutos</p>
-                `
-            })
-            console.log('Mensaje enviado', info.messageId)
-        } catch (error) {
-            console.error('Error al enviar email de confirmación:', error)
-            throw new Error('No se pudo enviar el correo de confirmación')
-        }
+        const info = await transporter.sendMail({
+            from: 'UpTask <${process.env.SMTP_USER}>',
+            to: user.email,
+            subject: 'UpTask - Confirma tu cuenta',
+            text: 'UpTask - Confirma tu cuenta',
+            html: `<p>Hola ${user.name}, has creado tu cuenta en UpTask, solo debes confirmar tu cuenta</p>
+                <p>Visita el siguiente en enlace</p>
+                <a href="${process.env.FRONTEND_URL}/auth/confirm-account">Confirmar Cuenta</a>
+                <p>E ingresa el codigo: <b>${user.token}</b></p>
+                <p>Este token expira en 10 minutos</p>
+            `
+        })
+        console.log('Mensaje enviado', info.messageId)
     }
 
+
+
     static sendPasswordResetToken = async (user: IEmail) => {
-        try {
-            const info = await transporter.sendMail({
-                from: `UpTask <${process.env.SMTP_USER}>`,
-                to: user.email,
-                subject: 'UpTask - Reestablece tu contraseña',
-                text: 'UpTask - Reestablece tu contraseña',
-                html: `<p>Hola ${user.name}, has solicitado reestablecer tu contraseña.</p>
-                    <p>Visita el siguiente en enlace</p>
-                    <a href="${process.env.FRONTEND_URL}/auth/new-password">Reestablecer Contraseña</a>
-                    <p>E ingresa el codigo: <b>${user.token}</b></p>
-                    <p>Este token expira en 10 minutos</p>
-                `
-            })
-            console.log('Mensaje enviado', info.messageId)
-        } catch (error) {
-            console.error('Error al enviar email de cambio de contraseña:', error)
-            throw new Error('No se pudo enviar el correo de recuperación')
-        }
+        const info = await transporter.sendMail({
+            from: 'UpTask <${process.env.SMTP_USER}>',
+            to: user.email,
+            subject: 'UpTask - Reestablece tu contraseña',
+            text: 'UpTask - Reestablece tu contraseña',
+            html: `<p>Hola ${user.name}, has solicitado reestablecer tu contraseña.</p>
+                <p>Visita el siguiente en enlace</p>
+                <a href="${process.env.FRONTEND_URL}/auth/new-password">Reestablecer Contraseña</a>
+                <p>E ingresa el codigo: <b>${user.token}</b></p>
+                <p>Este token expira en 10 minutos</p>
+            `
+        })
+        console.log('Mensaje enviado', info.messageId)
     }
 }
