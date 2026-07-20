@@ -10,6 +10,10 @@ const config = () => {
         auth: {
             user: process.env.SMTP_USER,
             pass: process.env.SMTP_PASS
+        },
+        // Fuerza a Node.js a preferir IPv4 sobre IPv6 para evitar el ENETUNREACH
+        dnsLookup: (hostname, options, callback) => {
+            require('dns').lookup(hostname, { family: 4 }, callback);
         }
     }
 }
